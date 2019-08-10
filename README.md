@@ -5,7 +5,7 @@
 Excavate a volume. Move forward, right, and up from origin.
 
 ```
-wget 
+wget https://raw.githubusercontent.com/seanerice/Turtles/master/room.lua
 ```
 
 ## Dig
