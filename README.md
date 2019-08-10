@@ -19,5 +19,5 @@ wget
 Farm a 2D region of farmland. Move forward and right from origin
 
 ```
-wget
+wget https://raw.githubusercontent.com/seanerice/Turtles/master/farm.lua
 ```
