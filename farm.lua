@@ -9,29 +9,20 @@
 --  Author: Sean Rice
 --  Date: August 10, 2019
 --  ==================================
+local fuel = require "lib.fuel"
 
-fuel = {
-    "minecraft:lava_bucket",
-    "minecraft:coal"
-}
+fuel = {"minecraft:lava_bucket", "minecraft:coal"}
 
-crops = {
-    "natura:barley_crop",
-    "wheat"
-}
+crops = {"natura:barley_crop", "wheat"}
 
-transItems = {
-    "natura:materials"    
-}
+transItems = {"natura:materials"}
 
-seeds = {
-    "natura:overworld_seeds"    
-}
+seeds = {"natura:overworld_seeds"}
 
-function deposit()    
-    for i=1,16 do
+function deposit()
+    for i = 1, 16 do
         local id = turtle.getItemDetail(i)
-        if id~=nil then
+        if id ~= nil then
             if inList(id.name, transItems) then
                 turtle.select(i)
                 turtle.dropDown()
@@ -41,29 +32,25 @@ function deposit()
 end
 
 function inList(cmp, list)
-    for _,v in pairs(list) do
-        if v == cmp then
+    for _, v in pairs(list) do if v == cmp then return true end end
+    return false
+end
+
+function selectFuel()
+    for i = 1, 16 do
+        local id = turtle.getItemDetail(i)
+        if id ~= nul and inList(id.name, fuel) then
+            turtle.select(i)
             return true
         end
     end
     return false
 end
 
-function selectFuel()
-    for i=1,16 do
-        local id = turtle.getItemDetail(i)
-        if id~=nul and inList(id.name, fuel) then
-            turtle.select(i)
-            return true
-        end
-    end    
-    return false
-end
-
 function removeExcessSeeds()
     local seedCount = itemStacks("natura:overworld_seeds")
     if seedCount > 2 then
-        for i=1,seedCount-2 do
+        for i = 1, seedCount - 2 do
             selectSeed()
             turtle.drop()
         end
@@ -72,23 +59,21 @@ end
 
 function itemStacks(name)
     local count = 0
-    for i=1,16 do
+    for i = 1, 16 do
         local id = turtle.getItemDetail(i)
-        if id~=null and id.name == name then
-            count = count + 1
-        end
+        if id ~= null and id.name == name then count = count + 1 end
     end
     return count
 end
 
 function selectSeed()
-    for i=1,16 do
+    for i = 1, 16 do
         local id = turtle.getItemDetail(i)
-        if id~=nul and inList(id.name, seeds) then
+        if id ~= nul and inList(id.name, seeds) then
             turtle.select(i)
             return true
         end
-    end    
+    end
     return false
 end
 
@@ -104,15 +89,12 @@ end
 
 function tryTill()
     local succ, data = turtle.inspectDown()
-    if not succ then
-        turtle.digDown()
-    end
+    if not succ then turtle.digDown() end
 end
 
 function tryHarvest()
     local succ, data = turtle.inspectDown()
     if succ then
-        -- print(data.name, data.metadata)
         if inList(data.name, crops) and data.metadata == 3 then
             turtle.digDown()
         end
@@ -129,25 +111,23 @@ function tryForward()
         refuel()
         if not turtle.forward() then
             print("Turtle stuck")
-            while not turtle.forward() do
-                refuel()
-            end
+            while not turtle.forward() do refuel() end
         end
     end
     return true
 end
 
 function digLine(mag)
-    for i=1,mag do
+    for i = 1, mag do
         tryTill()
         tryHarvest()
         tryPlant()
-        tryForward()        
+        tryForward()
     end
 end
 
 function digPlane(x, z)
-    for i=0,x do
+    for i = 0, x do
         digLine(z)
         tryTill()
         tryHarvest()
@@ -173,12 +153,8 @@ end
 
 function parseParams()
     print("How many blocks to dig?")
-    --left = readNum("left:")
     right = readNum("right:")
-    --up = readNum("up:")
-    --down = readNum("down:")
     forward = readNum("forward:")
-    --back = readNum("back:")
 end
 
 -- INIT ==============================
@@ -186,7 +162,7 @@ parseParams()
 print(right, forward)
 
 -- MAIN LOOP =========================
-while(true) do
+while (true) do
     digPlane(right, forward)
 
     -- RESET =============================
@@ -194,14 +170,10 @@ while(true) do
         turtle.refuel()
         turtle.turnLeft()
         turtle.turnLeft()
-        for i=1,forward do
-            tryForward()
-        end
+        for i = 1, forward do tryForward() end
     end
     turtle.turnRight()
-    for i=1,right do
-        tryForward()
-    end 
+    for i = 1, right do tryForward() end
     turtle.turnRight()
 
     -- DEPOSIT IN CHEST ==================

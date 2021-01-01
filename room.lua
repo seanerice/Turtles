@@ -10,27 +10,14 @@
 --  Author: Sean Rice
 --  Date: August 8, 2019
 --  ==================================
+function refuel() if turtle.getFuelLevel() == 0 then turtle.refuel() end end
 
-function refuel()
-    if turtle.getFuelLevel() == 0 then
-        turtle.refuel()
-    end
-end
+function dig() while turtle.detect() do turtle.dig() end end
 
-function dig()
-    while turtle.detect() do
-        turtle.dig()
-    end
-end
-
-function digUp()
-    while turtle.detectUp() do
-        turtle.digUp()
-    end
-end
+function digUp() while turtle.detectUp() do turtle.digUp() end end
 
 function digLine(mag)
-    for i=1,mag do
+    for i = 1, mag do
         while not turtle.forward() do
             dig()
             refuel()
@@ -39,7 +26,7 @@ function digLine(mag)
 end
 
 function digPlane(x, z)
-    for i=0,x do
+    for i = 0, x do
         digLine(z)
         if i ~= x then
             if i % 2 == 0 then
@@ -61,7 +48,7 @@ function digVolume(x, y, z)
     desx = x
     desy = y
     desz = z
-    for i=0,desy do
+    for i = 0, desy do
         digPlane(desx, desz)
         if desy ~= i then
             if desx % 2 == 0 then
@@ -73,9 +60,9 @@ function digVolume(x, y, z)
                 digUp()
                 turtle.up()
                 turtle.turnRight()
-                temp=desz
-                desz=desx
-                desx=temp
+                temp = desz
+                desz = desx
+                desx = temp
             end
         end
     end
@@ -88,18 +75,14 @@ end
 
 function parseParams()
     print("How many blocks to dig?")
-    --left = readNum("left:")
     right = readNum("right:")
     up = readNum("up:")
-    --down = readNum("down:")
     forward = readNum("forward:")
-    --back = readNum("back:")
 end
 
 -- INIT ==============================
 parseParams()
 print(left, right, up, down, forward, back)
 
--- MAIN LOOP =========================
--- Move to back left bottom corner
+-- MAIN ==============================
 digVolume(right, up, forward)
