@@ -4,10 +4,12 @@ local module = {}
 
 function module.refuel()
     if turtle.getFuelLevel() == 0 then
-        selectFuel()
+        module.selectFuel()
         turtle.refuel(4)
         if turtle.getFuelLevel() > 0 then
-            print("Fuel added. ", turtle.getFuelLevel())
+            print("Fuel added.\nCurrent fuel:", turtle.getFuelLevel())
+        else
+            print("Failed to add fuel.\nCurrent fuel:", turtle.getFuelLevel());
         end
     end
 end
