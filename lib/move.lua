@@ -1,17 +1,15 @@
 local module = {}
 
-module.pos = {x = 0, y = 0, z = 0}
-module.dir = {x = 0, y = 0, z = 1}
+module.pos = vector.new(0, 0, 0)
+module.dir = vector.new(0, 0, 1)
 
-local up = {x = 0, y = 1, z = 0}
-local down = {x = 0, y = -1, z = 0}
+local up = vector.new(0, 1, 0)
+local down = vector.new(0, -1, 0)
 
-local function rightDir() return rotateRight(module.dir) end
-local function leftDir() return rotateLeft(module.dir) end
+local function rightDir() return upDir():cross(frontDir()) end
+local function leftDir() return frontDir():cross(upDir()) end
 local function frontDir() return module.dir end
-local function backDir()
-    return {x = -module.dir.x, y = module.dir.y, z = -module.dir.z}
-end
+local function backDir() return -frontDir() end
 local function upDir() return up end
 local function downDir() return down end
 
@@ -21,16 +19,13 @@ local function vec3Add(a, b) return {
     z = a.z + b.z
 } end
 
-local function rotateRight(dir) return {x = dir.z, y = dir.y, z = -dir.x} end
-local function rotateLeft(dir) return {x = -dir.z, y = dir.y, z = dir.x} end
-
 function module.forward()
     if not (turtle.forward()) then
         error("can't move forward", 3)
         return false
     end
 
-    module.pos = vec3Add(module.pos, frontDir())
+    module.pos = module.pos:add(frontDir())
     return true
 end
 
@@ -40,7 +35,7 @@ function module.backward()
         return false
     end
 
-    module.pos = vec3Add(module.pos, backDir())
+    module.pos = module.pos:add(backDir())
     return true
 end
 
@@ -50,7 +45,7 @@ function module.up()
         return false
     end
 
-    module.pos = vec3Add(module.pos, upDir())
+    module.pos = module.pos:add(upDir())
     return true
 end
 
@@ -60,7 +55,7 @@ function module.down()
         return false
     end
 
-    module.pos = vec3Add(module.pos, downDir())
+    module.pos = module.pos:add(downDir())
     return true
 end
 
@@ -70,7 +65,7 @@ function module.turnRight()
         return false
     end
 
-    module.dir = rotateRight(module.dir)
+    module.dir = rightDir()
     return true
 end
 
@@ -80,7 +75,7 @@ function module.turnLeft()
         return false
     end
 
-    module.dir = rotateLeft(module.dir)
+    module.dir = leftDir()
     return true
 end
 
