@@ -23,7 +23,7 @@ function module.forward()
 end
 
 function module.backward()
-    if not (turtle.backward()) then
+    if not (turtle.back()) then
         error("can't move backwarad", 3)
         return false
     end
