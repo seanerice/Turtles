@@ -40,5 +40,3 @@ move.turnLeft()
 testMove()
 
 print("test success")
-
-a 
