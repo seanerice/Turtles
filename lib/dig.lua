@@ -3,6 +3,8 @@ local moduleDir = (...):match("(.-)[^%.]+$")
 local move = require(moduleDir .. "move")
 local fuel = require(moduleDir .. "fuel")
 
+local module = {}
+
 local function size(arr)
     count = 0
     for i, v in pairs(arr) do count = count + 1 end
@@ -10,7 +12,7 @@ end
 
 local lowerBound = vector.new()
 
-function digUntilCleared(maxAttempts)
+function module.digUntilCleared(maxAttempts)
     maxAttempts = maxAttempts or 64
     for attempt = 1, maxAttempts, 1 do
         turtle.dig()
@@ -22,7 +24,7 @@ function digUntilCleared(maxAttempts)
     return false
 end
 
-function digAndMoveForward()
+function module.digAndMoveForward()
     while not move.foward() do
         if turtle.getFuelLevel() == 0 then
             if not fuel.refuel() then
@@ -31,7 +33,7 @@ function digAndMoveForward()
                     2)
                 return false;
             end
-        elseif not digUntilCleared(50) then
+        elseif not module.digUntilCleared(50) then
             error(
                 "Failed to clear away obstacle after 50 attempts, shutting down")
         end
@@ -39,3 +41,5 @@ function digAndMoveForward()
 
     return true
 end
+
+return module
