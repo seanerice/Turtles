@@ -21,8 +21,8 @@ local function vec3Add(a, b) return {
     z = a.z + b.z
 } end
 
-local function rotateRight(dir) return {x = dir.y, y = -dir.x, z = dir.z} end
-local function rotateLeft(dir) return {x = -dir.y, y = dir.x, z = dir.z} end
+local function rotateRight(dir) return {x = dir.z, y = dir.y, z = -dir.z} end
+local function rotateLeft(dir) return {x = -dir.z, y = dir.y, z = dir.z} end
 
 function module.forward()
     if not (turtle.forward()) then
