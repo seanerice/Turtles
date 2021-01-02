@@ -10,8 +10,8 @@
 --  Date: August 10, 2019
 --  ==================================
 local fuel = require "lib.fuel"
-
-fuel = {"minecraft:lava_bucket", "minecraft:coal"}
+local inventory = require "lib.inventory"
+local movement = require "lib.movement"
 
 crops = {"natura:barley_crop", "wheat"}
 
@@ -33,17 +33,6 @@ end
 
 function inList(cmp, list)
     for _, v in pairs(list) do if v == cmp then return true end end
-    return false
-end
-
-function selectFuel()
-    for i = 1, 16 do
-        local id = turtle.getItemDetail(i)
-        if id ~= nul and inList(id.name, fuel) then
-            turtle.select(i)
-            return true
-        end
-    end
     return false
 end
 
@@ -77,16 +66,6 @@ function selectSeed()
     return false
 end
 
-function refuel()
-    if turtle.getFuelLevel() == 0 then
-        selectFuel()
-        turtle.refuel(4)
-        if turtle.getFuelLevel() > 0 then
-            print("Fuel added. ", turtle.getFuelLevel())
-        end
-    end
-end
-
 function tryTill()
     local succ, data = turtle.inspectDown()
     if not succ then turtle.digDown() end
@@ -108,10 +87,10 @@ end
 
 function tryForward()
     if not turtle.forward() then
-        refuel()
+        fuel.refuel()
         if not turtle.forward() then
             print("Turtle stuck")
-            while not turtle.forward() do refuel() end
+            while not turtle.forward() do fuel.refuel() end
         end
     end
     return true
@@ -167,7 +146,7 @@ while (true) do
 
     -- RESET =============================
     if right % 2 == 0 then
-        turtle.refuel()
+        fuel.refuel()
         turtle.turnLeft()
         turtle.turnLeft()
         for i = 1, forward do tryForward() end
