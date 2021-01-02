@@ -1,5 +1,7 @@
-local move = require("move")
-local fuel = require("fuel")
+local moduleDir = (...):match("(.-)[^%.]+$")
+
+local move = require(moduleDir .. "move")
+local fuel = require(moduleDir .. "fuel")
 
 local function size(arr)
     count = 0
