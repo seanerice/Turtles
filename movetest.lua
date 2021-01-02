@@ -13,15 +13,31 @@ end
 
 fuel.refuel()
 
-move.forward()
-printPos()
+local function testMove()
+    move.forward()
+    printPos()
 
-move.backward()
-printPos()
+    move.backward()
+    printPos()
 
-move.up()
-printPos()
+    move.up()
+    printPos()
 
-move.down()
-printPos()
+    move.down()
+    printPos()
+end
+
+testMove()
+move.rotateRight()
+testMove()
+move.rotateLeft()
+testMove()
+move.rotateRight()
+move.rotateRight()
+testMove()
+move.rotateLeft()
+move.rotateLeft()
+testMove()
+
+print("test success")
 
