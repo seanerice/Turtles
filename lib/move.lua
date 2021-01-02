@@ -19,6 +19,10 @@ local function vec3Add(a, b) return {
     z = a.z + b.z
 } end
 
+module.frontDir = frontDir
+module.upDir = upDir
+module.downDir = downDir
+
 function module.forward()
     if not (turtle.forward()) then return false end
 
