@@ -3,6 +3,18 @@ local module = {}
 module.pos = {x = 0, y = 0, z = 0}
 module.dir = {x = 0, y = 0, z = 1}
 
+local up = {x = 0, y = 1, z = 0}
+local down = {x = 0, y = -1, z = 0}
+
+local function rightDir() return rotateRight(module.dir) end
+local function leftDir() return rotateLeft(module.dir) end
+local function frontDir() return module.dir end
+local function backDir()
+    return {x = -module.dir.x, y = module.dir.y, z = -module.dir.z}
+end
+local function upDir() return up end
+local function downDir() return down end
+
 local function vec3Add(a, b) return {
     x = a.x + b.x,
     y = a.y + b.y,
@@ -18,7 +30,7 @@ function module.forward()
         return false
     end
 
-    module.pos = vec3Add(module.pos, module.dir)
+    module.pos = vec3Add(module.pos, frontDir())
     return true
 end
 
@@ -28,7 +40,7 @@ function module.backward()
         return false
     end
 
-    module.pos = vec3Add(module.pos, module.dir)
+    module.pos = vec3Add(module.pos, backDir())
     return true
 end
 
@@ -38,7 +50,7 @@ function module.up()
         return false
     end
 
-    module.pos = vec3Add(module.pos, module.dir)
+    module.pos = vec3Add(module.pos, upDir())
     return true
 end
 
@@ -48,7 +60,7 @@ function module.down()
         return false
     end
 
-    module.pos = vec3Add(module.pos, module.dir)
+    module.pos = vec3Add(module.pos, downDir())
     return true
 end
 
