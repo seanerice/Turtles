@@ -8,10 +8,10 @@ local down = vector.new(0, -1, 0)
 
 local function upDir() return up end
 local function downDir() return down end
-local function rightDir() return upDir():cross(frontDir()) end
-local function leftDir() return frontDir():cross(upDir()) end
 local function frontDir() return module.dir end
 local function backDir() return -frontDir() end
+local function rightDir() return upDir():cross(frontDir()) end
+local function leftDir() return frontDir():cross(upDir()) end
 
 local function vec3Add(a, b) return {
     x = a.x + b.x,
