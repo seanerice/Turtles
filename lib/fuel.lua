@@ -2,15 +2,19 @@ fuel = {"minecraft:lava_bucket", "minecraft:coal"}
 
 local module = {}
 
-function module.refuel()
+function module.refuel(n)
+    n = n or 1
+
     if turtle.getFuelLevel() == 0 then
         module.selectFuel()
-        turtle.refuel(4)
+        turtle.refuel(n)
         if turtle.getFuelLevel() > 0 then
-            print("Fuel added.\nCurrent fuel:", turtle.getFuelLevel(), "\n")
+            print("Fuel added.\n", "Current fuel:", turtle.getFuelLevel(), "\n")
+            return false
         else
-            print("Failed to add fuel.\nCurrent fuel:", turtle.getFuelLevel(),
-                  "\n")
+            print("Failed to add fuel.", "\nCurrent fuel:",
+                  turtle.getFuelLevel(), "\n")
+            return false
         end
     end
 end

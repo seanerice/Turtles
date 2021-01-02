@@ -20,60 +20,42 @@ local function vec3Add(a, b) return {
 } end
 
 function module.forward()
-    if not (turtle.forward()) then
-        error("can't move forward", 3)
-        return false
-    end
+    if not (turtle.forward()) then return false end
 
     module.pos = module.pos:add(frontDir())
     return true
 end
 
 function module.backward()
-    if not (turtle.back()) then
-        error("can't move backwarad", 3)
-        return false
-    end
+    if not (turtle.back()) then return false end
 
     module.pos = module.pos:add(backDir())
     return true
 end
 
 function module.up()
-    if not (turtle.up()) then
-        error("can't move up", 3)
-        return false
-    end
+    if not (turtle.up()) then return false end
 
     module.pos = module.pos:add(upDir())
     return true
 end
 
 function module.down()
-    if not (turtle.down()) then
-        error("can't move down", 3)
-        return false
-    end
+    if not (turtle.down()) then return false end
 
     module.pos = module.pos:add(downDir())
     return true
 end
 
 function module.turnRight()
-    if not (turtle.turnRight()) then
-        error("can't turn right")
-        return false
-    end
+    if not (turtle.turnRight()) then return false end
 
     module.dir = rightDir()
     return true
 end
 
 function module.turnLeft()
-    if not (turtle.turnLeft()) then
-        error("can't turn left")
-        return false
-    end
+    if not (turtle.turnLeft()) then return false end
 
     module.dir = leftDir()
     return true
