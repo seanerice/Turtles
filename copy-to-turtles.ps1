@@ -1,1 +1,1 @@
-Copy-Item -Force -Path ".\*" -Destination "C:\Users\seane\AppData\Local\.ftba\instances\ff0ad033-aa90-42a5-91d4-e286e8674ba0\saves\Copy of New World\computer\0\turtles"  -Recurse
+Copy-Item -Force -Path ".\*" -Destination "C:\Users\seane\AppData\Local\.ftba\instances\ff0ad033-aa90-42a5-91d4-e286e8674ba0\saves\Copy of New World\computer\4\turtles"  -Recurse

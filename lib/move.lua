@@ -22,6 +22,9 @@ local function vec3Add(a, b) return {
 module.frontDir = frontDir
 module.upDir = upDir
 module.downDir = downDir
+module.leftDir = leftDir
+module.rightDir = rightDir
+module.backDir = backDir
 
 function module.forward()
     if not (turtle.forward()) then return false end
@@ -62,6 +65,25 @@ function module.turnLeft()
     if not (turtle.turnLeft()) then return false end
 
     module.dir = leftDir()
+    return true
+end
+
+local function vectorEquals(vec1, vec2)
+    return vec1.x == vec2.x and vec1.y == vec2.y and vec1.z == vec2.z
+end
+
+local worldX = vector.new(1, 0, 0)
+local worldZ = vector.new(0, 0, 1)
+local function validDir(dir)
+    return
+        vectorEquals(module.dir, worldX) or vectorEquals(module.dir, -worldX) or
+            vectorEquals(module.dir, worldZ) or
+            vectorEquals(module.dir, -worldZ)
+end
+
+function module.setDir(newDir)
+    if not validDir(newDir) then return false end
+    while not vectorEquals(module.dir, newDir) do module.turnRight() end
     return true
 end
 

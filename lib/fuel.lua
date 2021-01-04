@@ -10,7 +10,7 @@ function module.refuel(n)
         turtle.refuel(n)
         if turtle.getFuelLevel() > 0 then
             print("Fuel added.\n", "Current fuel:", turtle.getFuelLevel(), "\n")
-            return false
+            return true
         else
             print("Failed to add fuel.", "\nCurrent fuel:",
                   turtle.getFuelLevel(), "\n")
