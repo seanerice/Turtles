@@ -8,6 +8,8 @@ local function distance(nodeA, nodeB)
 end
 
 local valid_node_func = function(node, neighbor)
+    print(inspect(node), inspect(neighbor), "/n")
+
     local max_dist = 1
 
     if distance(node, neighbor) <= max_dist then return true end
@@ -35,6 +37,6 @@ local nodeS = {x = 0, y = 0, z = 0}
 local nodeE = {x = 5, y = 5, z = 5}
 local allNodes = create3dNodeGraph(graph, 10, 10, 10)
 
-print(inpsect(graph))
+print(inspect(graph))
 
 local path = astar.path(nodeS, nodeE, graph, false, valid_node_func)
