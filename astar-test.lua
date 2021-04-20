@@ -24,11 +24,10 @@ local function create3dNodeGraph(graph, x, y, z)
         for j = 1, x do
             for k = 1, z do
                 table.insert(graph, {x = j - 1, y = i - 1, z = k - 1})
+                inspect(j, i, k)
             end
         end
     end
-
-    return graph
 end
 
 local graph = {}
@@ -36,6 +35,6 @@ local nodeS = {x = 0, y = 0, z = 0}
 local nodeE = {x = 5, y = 5, z = 5}
 local allNodes = create3dNodeGraph(graph, 10, 10, 10)
 
-local path = astar.path(nodeS, nodeE, allNodes, false, valid_node_func)
-print(path)
-inspect(path)
+inspect(graph)
+
+local path = astar.path(nodeS, nodeE, graph, false, valid_node_func)
