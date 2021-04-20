@@ -8,7 +8,6 @@ local function distance(nodeA, nodeB)
 end
 
 local valid_node_func = function(node, neighbor)
-    print(inspect(node), inspect(neighbor), "/n")
 
     local max_dist = 1
 
@@ -34,8 +33,8 @@ end
 
 local graph = {}
 local nodeS = {x = 0, y = 0, z = 0}
-local nodeE = {x = 5, y = 5, z = 5}
-local allNodes = create3dNodeGraph(graph, 10, 10, 10)
+local nodeE = {x = 2, y = 2, z = 2}
+local allNodes = create3dNodeGraph(graph, 3, 3, 3)
 
 print(inspect(graph))
 
