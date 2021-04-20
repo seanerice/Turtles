@@ -33,5 +33,9 @@ local function create3dNodeGraph(x, y, z)
     return graph
 end
 
+local nodeS = {x = 0, y = 0, z = 0}
+local nodeE = {x = 5, y = 5, z = 5}
+local allNodes = create3dNodeGraph(10, 10, 10)
+
 local path = astar.path(nodeS, nodeE, allNodes, false, valid_node_func)
 inspect(path)
