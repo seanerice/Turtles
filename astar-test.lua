@@ -1,5 +1,6 @@
 local astar = require('lib.astar')
 local inspect = require('lib.inspect')
+local vec = require('lib.vec')
 
 local function distance(nodeA, nodeB)
     return math.sqrt(math.pow(nodeA.x - nodeB.x, 2) +
@@ -8,7 +9,6 @@ local function distance(nodeA, nodeB)
 end
 
 local valid_node_func = function(node, neighbor)
-
     local max_dist = 1
 
     if distance(node, neighbor) <= max_dist then return true end
@@ -25,17 +25,41 @@ local function create3dNodeGraph(graph, x, y, z)
         for j = 1, x do
             for k = 1, z do
                 table.insert(graph, {x = j - 1, y = i - 1, z = k - 1})
-                print(j, i, k)
             end
         end
     end
 end
 
+local function getNode(graph, x, y, z)
+    for i, node in ipairs(graph) do
+        if x == node.x and y == node.y and z == node.z then return node end
+    end
+end
+
 local graph = {}
-local nodeS = {x = 0, y = 0, z = 0}
-local nodeE = {x = 2, y = 2, z = 2}
-local allNodes = create3dNodeGraph(graph, 3, 3, 3)
+create3dNodeGraph(graph, 3, 3, 3)
 
-print(inspect(graph))
+local nodeS = getNode(graph, 0, 0, 0)
+local nodeE = getNode(graph, 2, 2, 2)
 
-local path = astar.path(nodeS, nodeE, graph, false, valid_node_func)
+local path = astar.path(nodeS, nodeE, graph, true, valid_node_func)
+
+local function path2VecPath(path, vecPath)
+    local lastNode = nil
+    for i, node in ipairs(path) do
+        if i > 1 then table.insert(vecPath, vec.sub(node, lastNode)) end
+        lastNode = node
+    end
+end
+
+local vecPath = {}
+
+path2VecPath(path, vecPath)
+
+local move = require('lib.move')
+local fuel = require('lib.move')
+
+for _, dir in ipairs(vecPath) do
+    fuel.refuel(1)
+    move.setDir(dir)
+end
