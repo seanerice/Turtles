@@ -15,12 +15,10 @@ local valid_node_func = function(node, neighbor)
     return false
 end
 
-local function create3dNodeGraph(x, y, z)
+local function create3dNodeGraph(graph, x, y, z)
     if x < 1 or y < 1 or z < 1 then
         error("x, y, and z value must be 1 or greater.")
     end
-
-    graph = {}
 
     for i = 1, y do
         for j = 1, x do
@@ -33,9 +31,11 @@ local function create3dNodeGraph(x, y, z)
     return graph
 end
 
+local graph = {}
 local nodeS = {x = 0, y = 0, z = 0}
 local nodeE = {x = 5, y = 5, z = 5}
-local allNodes = create3dNodeGraph(10, 10, 10)
+local allNodes = create3dNodeGraph(graph, 10, 10, 10)
 
 local path = astar.path(nodeS, nodeE, allNodes, false, valid_node_func)
+print(path)
 inspect(path)
