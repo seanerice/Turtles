@@ -13,7 +13,8 @@ end
 local valid_node_func = function(node, neighbor)
     local max_dist = 1
 
-    if distance(node, neighbor) <= max_dist and neighbor.obstacle == true then
+    if distance(node, neighbor) <= max_dist and
+        (neighbor.obstacle == nil or neighbor.obstacle == false) then
         return true
     end
 
@@ -44,13 +45,13 @@ local function getNode(graph, x, y, z)
     end
 end
 
-local function removeNode(graph, x, y, z)
-    for i, node in ipairs(graph) do
-        if x == node.x and y == node.y and z == node.z then
-            table.remove(graph, i)
-        end
-    end
-end
+-- local function removeNode(graph, x, y, z)
+--     for i, node in ipairs(graph) do
+--         if x == node.x and y == node.y and z == node.z then
+--             table.remove(graph, i)
+--         end
+--     end
+-- end
 
 local function path2VecPath(path)
     local vecPath = {}
@@ -65,6 +66,8 @@ end
 local function tryReachGoal(graph, endNode)
     local startNode = getNode(graph, move.pos.x, move.pos.y, move.pos.z)
     local path = astar.path(startNode, endNode, graph, true, valid_node_func)
+    if path == nil then error("could not find path") end
+
     local vecPath = path2VecPath(path)
 
     for _, dir in ipairs(vecPath) do
@@ -73,18 +76,18 @@ local function tryReachGoal(graph, endNode)
 
         if vec.equals(dir, vec.top) then
             if turtle.getFuelLevel() > 0 and not move.up() then
-                getNode(0, nextPos.x, nextPos.y, nextPos.z).obstacle = true
+                getNode(graph, nextPos.x, nextPos.y, nextPos.z).obstacle = true
                 return false
             end
         elseif vec.equals(dir, vec.bottom) then
             if turtle.getFuelLevel() > 0 and not move.down() then
-                getNode(0, nextPos.x, nextPos.y, nextPos.z).obstacle = true
+                getNode(graph, nextPos.x, nextPos.y, nextPos.z).obstacle = true
                 return false
             end
         else
             move.setDir(dir)
             if turtle.getFuelLevel() > 0 and not move.forward() then
-                getNode(0, nextPos.x, nextPos.y, nextPos.z).obstacle = true
+                getNode(graph, nextPos.x, nextPos.y, nextPos.z).obstacle = true
                 return false
             end
         end
@@ -93,6 +96,6 @@ local function tryReachGoal(graph, endNode)
 end
 
 local graph = create3dNodeGraph(10, 10, 10)
-local nodeE = getNode(graph, 2, 2, 2)
+local nodeE = getNode(graph, 5, 0, 5)
 
-while not tryReachGoal(graph, nodeE) do end
+while not tryReachGoal(graph, nodeE) do print("Blocked, trying again...") end

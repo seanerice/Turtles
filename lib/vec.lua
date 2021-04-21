@@ -6,8 +6,8 @@ module.left = module.new(-1, 0, 0)
 module.right = module.new(1, 0, 0)
 module.front = module.new(0, 0, 1)
 module.back = module.new(0, 0, -1)
-module.top = module.top(0, 1, 0)
-module.bottom = module.top(0, -1, 0)
+module.top = module.new(0, 1, 0)
+module.bottom = module.new(0, -1, 0)
 
 function module.dir2Idx(dir)
     if (module.equals(dir, left)) then return 3 end
