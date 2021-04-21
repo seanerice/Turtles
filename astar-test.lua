@@ -4,6 +4,19 @@ local vec = require('lib.vec')
 local move = require('lib.move')
 local fuel = require('lib.fuel')
 
+local yieldTime -- variable to store the time of the last yield
+local function yield()
+    if yieldTime then -- check if it already yielded
+        if os.clock() - yieldTime > 2 then -- if it were more than 2 seconds since the last yield
+            os.queueEvent("someFakeEvent") -- queue the event
+            os.pullEvent("someFakeEvent") -- pull it
+            yieldTime = nil -- reset the counter
+        end
+    else
+        yieldTime = os.clock() -- store the time
+    end
+end
+
 local function distance(nodeA, nodeB)
     return math.sqrt(math.pow(nodeA.x - nodeB.x, 2) +
                          math.pow(nodeA.y - nodeB.y, 2) +
@@ -40,6 +53,7 @@ end
 local function getNode(graph, x, y, z)
     for i, node in ipairs(graph) do
         if x == node.x and y == node.y and z == node.z then return node end
+        yield()
     end
 end
 
@@ -105,8 +119,8 @@ local function readParams()
 end
 
 -- local startPos, endPos = readParams()
-startPos = vec.new(0, 0, 0)
-endPos = vec.new(3, 3, 3)
+local startPos = vec.new(0, 0, 0)
+local endPos = vec.new(3, 3, 3)
 
 move.pos = vector.new(startPos.x, startPos.y, startPos.z)
 
