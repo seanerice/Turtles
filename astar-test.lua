@@ -57,9 +57,16 @@ local vecPath = {}
 path2VecPath(path, vecPath)
 
 local move = require('lib.move')
-local fuel = require('lib.move')
+local fuel = require('lib.fuel')
 
 for _, dir in ipairs(vecPath) do
     fuel.refuel(1)
-    move.setDir(dir)
+    if vec.equals(dir, vec.new(0, 1, 0)) then
+        while not move.up() do print("Stuck: Can't move up") end
+    elseif vec.equals(dir, vec.new(0, -1, 0)) then
+        while not move.down() do print("Stuck: Can't move down") end
+    else
+        move.setDir(dir)
+        while not move.forward() do print("Stuck: Can't move forward") end
+    end
 end
