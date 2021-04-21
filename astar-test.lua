@@ -28,11 +28,9 @@ local function create3dNodeGraph(x, y, z)
         error("x, y, and z value must be 1 or greater.")
     end
 
-    for i = 1, y do
-        for j = 1, x do
-            for k = 1, z do
-                table.insert(graph, vec.new(j - 1, i - 1, k - 1))
-            end
+    for i = -y, y do
+        for j = -x, x do
+            for k = -z, z do table.insert(graph, vec.new(j, i, k)) end
         end
     end
 
@@ -44,14 +42,6 @@ local function getNode(graph, x, y, z)
         if x == node.x and y == node.y and z == node.z then return node end
     end
 end
-
--- local function removeNode(graph, x, y, z)
---     for i, node in ipairs(graph) do
---         if x == node.x and y == node.y and z == node.z then
---             table.remove(graph, i)
---         end
---     end
--- end
 
 local function path2VecPath(path)
     local vecPath = {}
@@ -95,7 +85,37 @@ local function tryReachGoal(graph, endNode)
     return true
 end
 
-local graph = create3dNodeGraph(10, 10, 10)
-local nodeE = getNode(graph, 5, 0, 5)
+local function readParams()
 
-while not tryReachGoal(graph, nodeE) do print("Blocked, trying again...") end
+    print("Enter the starting coordinates of the turtle:")
+
+    local startPos = vec.new(0, 0, 0)
+    startPos.x = readNum("X: ")
+    startPos.y = readNum("Y: ")
+    startPos.z = readNum("Z: ")
+
+    print("Enter the starting coordinates of the turtle:")
+
+    local endPos = vec.new(0, 0, 0)
+    endPos.x = readNum("X: ")
+    endPos.y = readNum("Y: ")
+    endPos.z = readNum("Z: ")
+
+    return startPos, endPos
+end
+
+-- local startPos, endPos = readParams()
+startPos = vec.new(0, 0, 0)
+endPos = vec.new(3, 3, 3)
+
+move.pos = vector.new(startPos.x, startPos.y, startPos.z)
+
+local graph = create3dNodeGraph(100, 100, 100)
+local startNode = getNode(graph, move.pos.x, move.pos.y, move.pos.z)
+local endNode = getNode(graph, endPos.x, endPos.y, endPos.z)
+
+while not tryReachGoal(graph, endNode) do print("Blocked, trying again...") end
+
+print("Going home...")
+
+while not tryReachGoal(graph, startNode) do print("Blocked, trying again...") end
